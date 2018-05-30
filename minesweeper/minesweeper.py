@@ -1,6 +1,8 @@
-from PyQt5.QtGui import *
-from PyQt5.QtWidgets import *
-from PyQt5.QtCore import *
+from PyQt5.QtCore import pyqtSignal, QSize, Qt, QTimer
+from PyQt5.QtGui import QImage, QColor, QPainter, QPalette, QBrush, QPen, \
+    QPixmap, QIcon
+from PyQt5.QtWidgets import QWidget, QMainWindow, QHBoxLayout, QLabel, \
+    QPushButton, QVBoxLayout, QGridLayout, QApplication
 
 import random
 import time
@@ -94,7 +96,8 @@ class Pos(QWidget):
                 f = p.font()
                 f.setBold(True)
                 p.setFont(f)
-                p.drawText(r, Qt.AlignHCenter | Qt.AlignVCenter, str(self.adjacent_n))
+                p.drawText(r, Qt.AlignHCenter | Qt.AlignVCenter,
+                           str(self.adjacent_n))
 
         elif self.is_flagged:
             p.drawPixmap(r, QPixmap(IMG_FLAG))
@@ -218,7 +221,8 @@ class MainWindow(QMainWindow):
         # Add mines to the positions
         positions = []
         while len(positions) < self.n_mines:
-            x, y = random.randint(0, self.b_size - 1), random.randint(0, self.b_size - 1)
+            x, y = random.randint(0, self.b_size - 1), random.randint(0,
+                                                                      self.b_size - 1)
             if (x, y) not in positions:
                 w = self.grid.itemAtPosition(y, x).widget()
                 w.is_mine = True
@@ -238,7 +242,8 @@ class MainWindow(QMainWindow):
 
         # Place starting marker
         while True:
-            x, y = random.randint(0, self.b_size - 1), random.randint(0, self.b_size - 1)
+            x, y = random.randint(0, self.b_size - 1), random.randint(0,
+                                                                      self.b_size - 1)
             w = self.grid.itemAtPosition(y, x).widget()
             # We don't want to start on a mine.
             if (x, y) not in positions:
